@@ -1,18 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import MotorcycleFeed from './Components/motorcycle_feed'
+import AuthPage from './Components/auth_page'
+import { Navbar, NavItem} from 'react-materialize';
 
-class App extends Component {
-  render() {
+class App extends Component { 
+
+  constructor(props) {
+    super(props) 
+
+    this.state = {
+      display: 'feed' // profile signup/login 
+    }
+  }
+
+  getComponent(display) {
+    if(display === 'login') {
+      return(<AuthPage />)    
+    } else if(display === 'profile') {
+      return(<h1>This is Profile Page</h1>) 
+    } else if(display === 'feed') {
+      return(<MotorcycleFeed />)      
+    }
+  } 
+
+
+  render() { 
+    const displayComponent = this.getComponent(this.state.display)
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+         {/* Navbar  */} 
+         <Navbar brand='Motorcycles' right>
+           <NavItem onClick={() => this.setState({ display: 'profile'})}>Profile</NavItem>
+           <NavItem onClick={() => this.setState({ display: 'feed'})}>Feed</NavItem>
+           <NavItem onClick={() => this.setState({ display: 'login'})}>Login/Signup</NavItem>
+         </Navbar>
+         {/* Profile OR Feed OR LOGIN/SIGNUP*/}
+         {
+           displayComponent
+         }
+
       </div>
     );
   }
